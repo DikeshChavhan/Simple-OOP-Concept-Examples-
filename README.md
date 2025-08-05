@@ -11,7 +11,5 @@ Perfect for students who want to learn OOP concepts and showcase their skills on
 - 📦 View product catalog
 - 🛒 Add products to cart
 - 🧾 View cart
-- ✅ Place order
 - 📚 OOP principles: Classes, Objects, Abstraction, Encapsulation
-
 ---

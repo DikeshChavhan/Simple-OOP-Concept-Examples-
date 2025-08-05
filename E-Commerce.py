@@ -1,73 +1,51 @@
 from abc import ABC, abstractmethod
 
-# Product Class (Encapsulation)
+# Abstraction
+class Person(ABC):
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
 
-class Product:
-    def __init__(self, name, price):
-        self.__name = name
-        self.__price = price  # private attribute
-
-    def get_name(self):
-        return self.__name
-
-    def get_price(self):
-        return self.__price
-
-# Abstract Payment Class (Abstraction)
-
-class Payment(ABC):
     @abstractmethod
-    def pay(self, amount):
+    def get_details(self):
         pass
 
+# Encapsulation & Inheritance
+class Student(Person):
+    def __init__(self, name, age, student_id):
+        super().__init__(name, age)
+        self.__student_id = student_id  # Private variable
+        self.__grades = []              # Encapsulated list
 
-# Payment Methods (Polymorphism)
+    def add_grade(self, grade):
+        if 0 <= grade <= 100:
+            self.__grades.append(grade)
+        else:
+            print("Invalid grade!")
 
-class CreditCardPayment(Payment):
-    def pay(self, amount):
-        print(f"Paid ₹{amount} using Credit Card.")
+    def calculate_average(self):
+        return sum(self.__grades) / len(self.__grades) if self.__grades else 0
 
-class PayPalPayment(Payment):
-    def pay(self, amount):
-        print(f"Paid ₹{amount} using PayPal.")
+    def get_details(self):  # Polymorphism
+        return f"Student: {self.name}, ID: {self.__student_id}, Avg: {self.calculate_average():.2f}"
 
+# Inheritance
+class Teacher(Person):
+    def __init__(self, name, age, subject):
+        super().__init__(name, age)
+        self.subject = subject
 
-# User Class (Inheritance Example)
+    def get_details(self):  # Polymorphism
+        return f"Teacher: {self.name}, Subject: {self.subject}"
 
-class User:
-    def __init__(self, username):
-        self.username = username
+# Object Creation
+student1 = Student("Dikesh", 21, "S123")
+student1.add_grade(85)
+student1.add_grade(92)
+student1.add_grade(76)
 
-class Customer(User):
-    def __init__(self, username):
-        super().__init__(username)
-        self.cart = []
+teacher1 = Teacher("Mrs. Sharma", 40, "Mathematics")
 
-    def add_to_cart(self, product):
-        self.cart.append(product)
-        print(f"{product.get_name()} added to cart.")
-
-    def checkout(self, payment_method: Payment):
-        total = sum([p.get_price() for p in self.cart])
-        payment_method.pay(total)
-
-
-# Example Run
-
-if __name__ == "__main__":
-    # Create products
-    p1 = Product("Laptop", 50000)
-    p2 = Product("Headphones", 2000)
-
-    # Create customer
-    customer = Customer("Pratik")
-
-    # Add items to cart
-    customer.add_to_cart(p1)
-    customer.add_to_cart(p2)
-
-    # Pay using Credit Card
-    customer.checkout(CreditCardPayment())
-
-    # Pay using PayPal
-    customer.checkout(PayPalPayment())
+# Output
+print(student1.get_details())  # Polymorphic call
+print(teacher1.get_details())  # Polymorphic call
